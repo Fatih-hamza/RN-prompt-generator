@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Generator</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --background: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--background);
+            margin: 0;
+            padding: 2rem;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+        }
+
+        .prompt-line {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .prompt-line:hover {
+            transform: translateY(-2px);
+        }
+
+        .prompt-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--background);
+            cursor: pointer;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #summary {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--card);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            display: none;
+        }
+
+        #summary.visible {
+            display: block;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .copy-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: opacity 0.2s;
+        }
+
+        .copy-button:hover {
+            opacity: 0.9;
+        }
+
+        .copy-button.copied {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prompt Generator</h1>
+        <div class="prompt-line">
+            <div class="prompt-title">Title</div>
+            <select id="title">
+                <option>Show Direct benefit and create an emotional appeal</option>
+                <option>Balance scientific authority with a call to action</option>
+                <option>Emphasize exclusivity and discovery</option>
+            </select>
+        </div>
+
+        <div class="prompt-line">
+            <div class="prompt-title">The Hook</div>
+            <select id="hook">
+                <option>Empowering and inclusive</option>
+                <option>Keeping the science but making the hook more personal</option>
+                <option>Direct Benefit, with pure simplicity and practicality</option>
+            </select>
+        </div>
+
+        <div class="prompt-line">
+            <div class="prompt-title">The Hidden Risks of AI</div>
+            <select id="risks">
+                <option>Thought-Provoking & Curiosity-Driven</option>
+                <option>Follow an Empowerment & Inclusivity Approach</option>
+                <option>Urgency & Problem-Solution Focused</option>
+            </select>
+        </div>
+
+        <div class="prompt-line">
+            <div class="prompt-title">The Solution</div>
+            <select id="solution">
+                <option>Empowering & Transformation Focused</option>
+                <option>Scientific Authority & Evidence-Based</option>
+                <option>Simplicity & Practicality Focused</option>
+            </select>
+        </div>
+
+        <div class="prompt-line">
+            <div class="prompt-title">Why Renaissance Now</div>
+            <select id="why">
+                <option>Visionary & Future-Oriented</option>
+                <option>Ethical & Values-Driven</option>
+                <option>Problem-Solution Focused</option>
+            </select>
+        </div>
+
+        <div class="prompt-line">
+            <div class="prompt-title">Bringing Renaissance Now to your life</div>
+            <select id="bringing">
+                <option>Empowerment & Personal Ownership</option>
+                <option>Transformation & Life-Changing Impact</option>
+                <option>Practical Guidance & Immediate Action</option>
+            </select>
+        </div>
+
+        <button onclick="generatePrompt()">Generate Prompt</button>
+
+        <div id="summary"></div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const selections = {
+                'Title': document.getElementById('title').value,
+                'The Hook': document.getElementById('hook').value,
+                'The Hidden Risks of AI': document.getElementById('risks').value,
+                'The Solution': document.getElementById('solution').value,
+                'Why Renaissance Now': document.getElementById('why').value,
+                'Bringing Renaissance Now to your life': document.getElementById('bringing').value
+            };
+
+            let customPrompt = `From the following script:
+
+"(Insert Video Script)"
+
+I need you to create a well-done lead magnet following these instructions:
+
+---
+
+Subject: Extract the subject from the provided script. The subject should`;
+
+            // Title section
+            if (selections['Title'] === 'Show Direct benefit and create an emotional appeal') {
+                customPrompt += ` show direct benefit and create an emotional appeal to read the entire lead magnet.`;
+            } else if (selections['Title'] === 'Balance scientific authority with a call to action') {
+                customPrompt += ` balance scientific authority with a call to action to empower the audience to learn from the lead magnet and take action to improve.`;
+            } else {
+                customPrompt += ` emphasize exclusivity and discovery, showing the info in the lead magnet as exclusive and latest advancements/discoveries.`;
+            }
+
+            customPrompt += `\n\nMake sure that the title makes the audience really interested in what's inside the lead magnet.\n\n---\n\n`;
+            
+            customPrompt += `Hook: Craft a hook that addresses the audience's specific pain point or curiosity, and offer a glimpse of the solution. Make the introduction engaging, focusing on how AI can provide practical solutions to everyday health problems. For example, emphasize how parents can better manage their child's nutrition or how wellness pros can leverage AI tools.\n\nMake the hook more engaging by:`;
+
+            // Hook section
+            if (selections['The Hook'] === 'Empowering and inclusive') {
+                customPrompt += ` making it Empowering and inclusive, showing the audience that they have the power to control the problem or make use of the advancement if they consume the knowledge in the lead magnet.`;
+            } else if (selections['The Hook'] === 'Keeping the science but making the hook more personal') {
+                customPrompt += ` keeping the science but making the hook more personal, using "you" and "your", and making the audience feel involved in the subject.`;
+            } else {
+                customPrompt += ` showing Direct Benefit, with pure simplicity and practicality, engaging the readers by inducing the idea that what we are about to say will absolutely help you.`;
+            }
+
+            customPrompt += `\n\n---\n\n`;
+            customPrompt += `The Hidden Risks of AI: Explain how AI offers great potential, but also highlight the risks in a relatable, non-technical manner. Break down concerns related to the script's topic, while reassuring the reader that solutions exist. Instead of focusing too much on the general risks, tie them specifically to the topic at hand. Use real-life examples where possible to maintain engagement.\nChoose a specific quote from renaissance now book to assign it with the number of chapter it is taken from in the lead magnet (specify who said the quote and in which chapter+name of the chapter).\n\nThe Hidden Risks of AI part should:`;
+
+            // Hidden Risks section
+            if (selections['The Hidden Risks of AI'] === 'Thought-Provoking & Curiosity-Driven') {
+                customPrompt += ` be Thought-Provoking & Curiosity-Driven, showing the risks in a way that makes the reader involved in the thinking process.`;
+            } else if (selections['The Hidden Risks of AI'] === 'Follow an Empowerment & Inclusivity Approach') {
+                customPrompt += ` follow an Empowerment & Inclusivity Approach, explaining the existing and potential risks, while also empowering the reader, by ensuring them that they have the power and ability to make informed decisions and improve their situation to the better, based on the script's subject.`;
+            } else {
+                customPrompt += ` urgency & Problem-Solution Focused, creating the feeling that these risks need to be addressed immediately, and that the lead magnet represents the essence or the start of the solution.`;
+            }
+
+            customPrompt += `\n\n---\n\n`;
+            customPrompt += `The Solution: Lay out a clear, step-by-step plan that addresses how to safely and effectively implement AI in health and wellness decisions regarding the topic of the script. Each step should be easy to understand and actionable, guiding the reader through using AI tools for personalized health recommendations. Make the tone encouraging, providing real and actionable tips and tools.\n\nMake the solution part:`;
+
+            // Solution section
+            if (selections['The Solution'] === 'Empowering & Transformation Focused') {
+                customPrompt += ` empowering & Transformation Focused, making the reader feel like they can transform the actual situation (if it is a problem), or use this opportunity to improve their situation.`;
+            } else if (selections['The Solution'] === 'Scientific Authority & Evidence-Based') {
+                customPrompt += ` backed with Scientific Authority & Evidence-Based, helping the reader trust the content by showing that there is science behind, and it is not just some talking, but actual evidence`;
+            } else {
+                customPrompt += ` explained in Simplicity & Practicality Focused, making the reader feel that they can easily start with simple and practical steps using this lead magnet.`;
+            }
+
+            customPrompt += `\n\n---\n\n`;
+            customPrompt += `Why Renaissance Now?: Link the problem and solution to our book. Explain how Renaissance Now provides deeper insights into these challenges and solutions in an approachable way. Instead of simply mentioning that the book discusses these topics, tease key lessons or actionable insights from the book that readers can immediately apply to their health journey. Highlight how it provides a roadmap for balancing AI innovation with ethical considerations.\n\nThis section should be:`;
+
+            // Why Renaissance Now section
+            if (selections['Why Renaissance Now'] === 'Visionary & Future-Oriented') {
+                customPrompt += ` Visionary & Future-Oriented, making the user feel like renaissance now is their way to be ready for the future, and well equipped in advance for what's coming`;
+            } else if (selections['Why Renaissance Now'] === 'Ethical & Values-Driven') {
+                customPrompt += ` Ethical & Values-Driven, Highlighting the ethical considerations of rapid AI development and positioning Renaissance Now as a leading movement in this reflection.`;
+            } else {
+                customPrompt += ` Problem-Solution Focused, convincing the reader that renaissance now lays the foundation for a smarter way to deal with the problems that the script is talking about.`;
+            }
+
+            customPrompt += `\n\n---\n\n`;
+            customPrompt += `Bringing Renaissance Now Into Your Life: Focus on the practical applications of Renaissance Now in daily life. Explain how the book's insights will help readers navigate AI-driven health tools and empower them to make smarter decisions. Encourage them to see the book as a hands-on guide for improving wellness through AI, rather than just a theoretical read.\n\nThis section should reflect:`;
+
+            // Bringing Renaissance Now section
+            if (selections['Bringing Renaissance Now to your life'] === 'Empowerment & Personal Ownership') {
+                customPrompt += ` Empowerment & Personal Ownership, encouraging readers to confidently take control of their health journey.`;
+            } else if (selections['Bringing Renaissance Now to your life'] === 'Transformation & Life-Changing Impact') {
+                customPrompt += ` Transformation & Life-Changing Impact, framing the book as a life-altering resource with lasting benefits.`;
+            } else {
+                customPrompt += ` Practical Guidance & Immediate Action, making the book feel easy to apply with step-by-step clarity.`;
+            }
+
+            customPrompt += `\n\nIn summary, the goal is to transform the content into an engaging, how-to format, making sure it's relatable and action-driven. Each section should make the reader feel like they're learning something valuable and concrete they can apply in their daily life.`;
+
+            const summary = document.getElementById('summary');
+            summary.innerHTML = `
+                <h2>Your Customized Prompt:</h2>
+                <pre>${customPrompt}</pre>
+                <button class="copy-button" onclick="copyToClipboard(this)">Copy to Clipboard</button>
+            `;
+            summary.classList.add('visible');
+        }
+
+        function copyToClipboard(button) {
+            const preElement = document.querySelector('pre');
+            const textToCopy = preElement.textContent;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Change button text and style temporarily
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.textContent = 'Copy to Clipboard';
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                button.textContent = 'Failed to copy';
+                setTimeout(() => {
+                    button.textContent = 'Copy to Clipboard';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html> 
