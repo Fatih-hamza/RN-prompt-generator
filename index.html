@@ -281,8 +281,13 @@ Subject: Extract the subject from the provided script. The subject should`;
             } else {
                 customPrompt += ` Practical Guidance & Immediate Action, making the book feel easy to apply with step-by-step clarity.`;
             }
+            customPrompt += `\n\nTELL ME AT THE END TO WHICH OF THE FOLLOWING TOPICS THE SCRIPT IS RELATED THE MOST:
+- AI Integration in Daily Life
+- Dangers of Advanced AI and Quantum AI
+- The New Equation
+- The New Outstanding Paradigm\n\n`;
 
-            customPrompt += `\n\nIn summary, the goal is to transform the content into an engaging, how-to format, making sure it's relatable and action-driven. Each section should make the reader feel like they're learning something valuable and concrete they can apply in their daily life.`;
+            customPrompt += `In summary, the goal is to transform the content into an engaging, how-to format, making sure it's relatable and action-driven. Each section should make the reader feel like they're learning something valuable and concrete they can apply in their daily life.`;
 
             const summary = document.getElementById('summary');
             summary.innerHTML = `
